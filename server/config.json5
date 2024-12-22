@@ -1,0 +1,193 @@
+{
+  // In a production environment, be sure to change this value to a random secret for security.
+  // You can use `npm run generate-secret` to generate a suitable value.
+  // Note that changes to this value will kick all users from all games.
+  secret: "CHANGE ME",
+  // This will be overwritten by the environment variable MD_SECRET, if set.
+
+  // The port to serve on. Note this should always be behind a reverse proxy.
+  listenOn: 8081,
+  // It is also possible to listen on a unix socket.
+  // listenOn: "/tmp/sock",
+  // This will be overwritten by the environment variable MD_LISTEN_ON, if set.
+
+  // The path this is hosted behind - only relevant when behind a reverse proxy, this won't actually host on a different
+  // path. This should always have a trailing slash if it isn't empty, and never one at the start.
+  basePath: "",
+  // This will be overwritten by the environment variable MD_BASE_PATH, if set.
+
+  // What decks players have access to.
+  // Note at least one source must be enabled.
+  sources: {
+    // Decks stored as static files.
+    // Note that the client has references to these built-in decks as defaults, so if you disable this or change the
+    // decks, you will need to make changes there (they are defined in the language definitions).
+    builtIn: {
+      // The directory to look for decks in.
+      basePath: "decks",
+
+      // Ids for decks in the order they will be presented to the user.
+      // The game will look for these in the directory given by basePath above, and will expect them to have the
+      // .deck.json5 extension.
+      decks: ["cah-base-en", "cah-base-ptbr"],
+    },
+
+    // Allows players to load decks from Many Decks.
+    manyDecks: {
+      // The base URL to the instance of Many Decks. This should *not* have a trailing slash.
+      baseUrl: "https://decks.rereadgames.com",
+
+      // How long to wait for a response from Many Decks before giving up and telling the user there is a problem.
+      timeout: "PT10S",
+
+      // The number of connections the server can make to Many Decks at one time.
+      simultaneousConnections: 2,
+    },
+
+    // Allows players to use decks from JSON Against Humanity
+    jsonAgainstHumanity: {
+      aboutUrl: "https://github.com/crhallberg/json-against-humanity",
+      url: "https://raw.githubusercontent.com/crhallberg/json-against-humanity/v2.0/cah-all-compact.json",
+    },
+  },
+
+  // The default configuration for new lobbies when they are created.
+  // There is no default name here as that is managed by the client.
+  defaults: {
+    rules: {
+      handSize: 10,
+      scoreLimit: 25,
+      houseRules: {
+        // packingHeat: {},
+        // reboot: { cost: 1 },
+        // comedyWriter: { number: 300, exclusive: true },
+        // rando: { number: 1 },
+        // neverHaveIEver: {},
+        // happyEnding: {},
+        // winnersPick: {},
+      },
+      stages: {
+        timeLimitMode: "Soft",
+        starting: 30,
+        playing: {
+          duration: 60,
+          after: 2,
+        },
+        revealing: {
+          duration: 45,
+          after: 2,
+        },
+        judging: {
+          duration: 20,
+          after: 2,
+        },
+      },
+    },
+    public: false,
+    audienceMode: false,
+    decks: [
+      // {
+      //   // A built-in deck.
+      //   source: "BuiltIn",
+      //   // The id (filename without `.deck.json5`.
+      //   id: "cah-base-en",
+      // },
+      // {
+      //   // A deck from JSON Against Humanity
+      //   source: "JAH",
+      //   // The id can be found in the JSON as the key for the deck.
+      //   id: "Base",
+      // },
+      // {
+      //   // A deck from Many Decks
+      //   source: "ManyDecks",
+      //   // The deck code, as given on Many Decks.
+      //   deckCode: "ABCDE",
+      // },
+    ],
+  },
+
+  // Timeouts determine how long the server waits before taking certain actions.
+  // These values are all ISO 8601 durations.
+  timeouts: {
+    // How long to wait in between checking timeouts.
+    // Note that this will effectively determine the resolution of all other timeouts, so should be kept low.
+    // Increasing the value will decrease server load, however.
+    // Zero-durations elsewhere will result in instant execution, regardless of frequency here.
+    timeoutCheckFrequency: "PT1S",
+
+    // How long to wait before marking a player as disconnected.
+    disconnectionGracePeriod: "PT2S",
+  },
+
+  // Tasks are things that take some time to happen (e.g: requesting data from external card services).
+  // These are queued, and the settings here will determine server load and game responsiveness when under load.
+  tasks: {
+    // The number of tasks that can be processed at once. Limiting this stops the server getting overloaded, but setting
+    // too low a value will result in games being slowed down.
+    rateLimit: 20,
+    // How often to process queued tasks. Setting this too high will result in games being slowed down a lot when the
+    // rate limit is hit (an ISO 8601 duration).
+    processTickFrequency: "PT0.5S",
+  },
+
+  // How to store game data.
+  storage: {
+    // Example of a configuration using in-memory storage. Note this means server restart wipes all data.
+    type: "InMemory",
+
+    //// Example of a configuration using a postgres database.
+    // type: "PostgreSQL",
+    // connection: {
+    //   host: "postgres",
+    //   port: 5432 ,
+    //   user: "massivedecks",
+    //   database: "massivedecks",
+    //   password: "massivedecks",
+    //   keepAlive: false,
+    // },
+
+    // How long to allow without any activity before garbage collecting the game (an ISO 8601 duration).
+    abandonedTime: "PT15M",
+    // How often to delete abandoned/finished games (an ISO 8601 duration).
+    garbageCollectionFrequency: "PT5M",
+  },
+
+  // How to cache game data.
+  cache: {
+    // Example of a configuration using in-memory storage.
+    type: "InMemory",
+
+    //// Example of a configuration using a postgres database.
+    // type: "PostgreSQL",
+    // connection: {
+    //   host: "postgres",
+    //   port: 5432 ,
+    //   user: "massivedecks",
+    //   database: "massivedecks",
+    //   password: "massivedecks",
+    //   keepAlive: false,
+    // },
+
+    // How old a cached value should be before we check to see if we should update it on a hit.
+    checkAfter: "PT5M",
+  },
+
+  // Show additional content to users of the application. These are not adverts
+  // you can buy, just related projects to Massive Decks.
+  adverts: {
+    // Show a link to Many Decks for users to build their own decks.
+    // Note this will only work if you have Many Decks set as a source.
+    manyDecks: true,
+    // Show a link to At The Party, Reread Games new game.
+    atTheParty: false,
+  },
+
+  // A file to touch when the server is started. If null, we won't touch any files.
+  touchOnStart: null,
+  // This will be overwritten by the environment variable MD_TOUCH_ON_START, if set.
+
+  // The version of Massive Decks.
+  version: "dev",
+  // This will be overwritten by the environment variable MD_VERSION, if set.
+}

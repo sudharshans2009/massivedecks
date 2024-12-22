@@ -1,0 +1,22 @@
+.lobby-browser {
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  h2,
+  h3 {
+    margin: 0;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .lobby-game-code {
+    font-size: 0.8em;
+  }
+}

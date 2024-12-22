@@ -1,0 +1,34 @@
+# This is a docker compose file for running development tools (building, dev server) in containers.
+# It is designed to mount this development environment directly and work over it.
+# If you want to run a static build and development deployment, see docker-compose.yml instead.
+# If you want to do a production deployment, see the deployment folder instead.
+
+# Generally you would want to run this via the `npm run` scripts in the relevant package.json files for the projects.
+# Running this directly will require setting environment variables:
+# USER_ID: The id of the user running this (used so files created in the containers have the right permissions.)
+# GROUP_ID: The id of the group of the user running this (used so files created in the containers have the right permissions.)
+# ROOT_DIR: The root directory of the massive decks repository you are working in (work around docker compose issues).
+
+networks:
+  internal:
+
+services:
+  client:
+    build:
+      context: "./client/dev"
+    user: "${USER_ID:?err}:${GROUP_ID:?err}"
+    ports:
+      - "127.0.0.1:8080:8080/tcp"
+    volumes:
+      - ./client:/md/client
+    networks:
+      - internal
+
+  server:
+    build:
+      context: "./server/dev"
+    user: "${USER_ID:?err}:${GROUP_ID:?err}"
+    volumes:
+      - ./server:/md/server
+    networks:
+      - internal

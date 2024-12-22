@@ -1,0 +1,345 @@
+@use "./start/_lobby-browser";
+@use "../cards/_size";
+@use "../_colors";
+
+.start {
+  font-size: clamp(0.5rem, 3vw, 1rem);
+  --card-aspect-ratio: #{size.$card-ratio};
+  padding: 0.5em 0 0 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  max-width: 80em;
+  margin: 0 auto;
+
+  &.page {
+    padding: 0;
+  }
+
+  #overlay {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    background-color: transparentize(#cccccc, 0.3);
+    font-size: 2em;
+  }
+
+  header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow: hidden;
+    padding: 5em 0 0 2em;
+
+    h1,
+    .subtitle {
+      flex-basis: size.$card-width;
+      font-size: 1em;
+    }
+
+    .card-slicer {
+      height: 6em;
+    }
+
+    .game-card {
+      margin: 0 0 0 auto;
+      transition: transform 1s;
+      transform: rotateZ(-4deg) translateY(-2em);
+
+      &:hover {
+        transform: rotateZ(-2deg) translateY(-3em);
+      }
+    }
+
+    .subtitle {
+      .game-card {
+        margin: 0 auto 0 0;
+        transform: rotateZ(4deg) translateY(0.5em) translateX(-2em);
+
+        &:hover {
+          transform: rotateZ(5deg) translateY(-1em) translateX(-1.5em);
+        }
+      }
+    }
+  }
+
+  .start-tab {
+    margin: 0.5em auto 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .tab-content {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    flex-basis: 30em;
+
+    padding: 0 2em 0 2em;
+    margin: 2em;
+
+    border-left: 0.1em solid colors.$secondary-background;
+    border-right: 0.1em solid colors.$secondary-background;
+
+    h2 {
+      margin: 0;
+    }
+
+    mwc-button {
+      align-self: flex-end;
+    }
+  }
+
+  .restrict {
+    align-self: center;
+    max-width: 25em;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .example-card {
+    float: right;
+    width: size.$card-width;
+    margin: 0.5em;
+    font-size: 0.7em;
+    color: #666677;
+    hyphens: none;
+
+    figcaption {
+      display: block;
+      width: 100%;
+      padding: 0.5em;
+    }
+  }
+
+  .rule-list {
+    margin: 0.5em;
+
+    h3 {
+      margin-bottom: 0.3em;
+    }
+
+    p {
+      margin-top: 0.3em;
+      margin-left: 0.5em;
+    }
+  }
+
+  footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1em;
+
+    .logos {
+      display: flex;
+    }
+
+    .logo {
+      display: block;
+      margin: 0.5em;
+      padding: 1em;
+
+      img,
+      svg {
+        width: 3em;
+        height: 3em;
+      }
+    }
+
+    .version {
+      opacity: 0.3;
+    }
+  }
+
+  .rejoin ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      display: inline-block;
+      margin-right: 0.5em;
+    }
+  }
+}
+
+#many-decks-ad > div {
+  font-size: clamp(0.9rem, 3vw, 1.2rem);
+
+  position: fixed;
+  left: 0;
+  top: -6.5em;
+
+  z-index: 11;
+
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  text-align: center;
+  justify-content: flex-start;
+
+  width: 7em;
+  height: 10em;
+  border-radius: 7em;
+
+  transition: left 0.25s, top 0.25s;
+
+  background-color: colors.$many-decks;
+  color: #ffffff;
+
+  > * {
+    margin-bottom: 0.5em;
+  }
+
+  &:hover {
+    left: 0em;
+    top: -5.5em;
+  }
+}
+
+@keyframes sway {
+  0% {
+    transform: rotateX(0);
+  }
+  33% {
+    transform: rotateX(30deg);
+  }
+  66% {
+    transform: rotateX(-30deg);
+  }
+  100% {
+    transform: rotateX(0);
+  }
+}
+
+#at-the-party-ad {
+  font-size: clamp(0.25rem, 2vw, 1.25rem);
+
+  > div {
+    position: fixed;
+    right: -5em;
+    top: 2rem;
+
+    transform: rotate(15deg);
+
+    width: 30em;
+    perspective: 20em;
+
+    &::before {
+      content: "";
+      display: block;
+
+      position: absolute;
+      right: -0.4em;
+      top: -0.4em;
+
+      background-image: url(../../../assets/images/at-the-party/lines.svg);
+      background-size: 7em 100%;
+
+      width: 40em;
+      height: 6.5em;
+      box-sizing: border-box;
+
+      z-index: -1;
+    }
+
+    > a {
+      display: block;
+      width: 50%;
+      aspect-ratio: 135 / 53;
+      margin: auto;
+      background: none;
+
+      transition: none;
+
+      position: relative;
+
+      &::before {
+        transform: rotate(-15deg);
+        content: "";
+        display: block;
+
+        position: absolute;
+        right: -10em;
+        top: -2em;
+
+        width: 50em;
+        height: 22em;
+
+        pointer-events: none;
+
+        opacity: 0;
+        transition: opacity 0.8s;
+
+        background-image: url(data:image/svg+xml;base64,CiAgPHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMDAlJyBoZWlnaHQ9JzEwMCUnPgogICAgPHJlY3Qgd2lkdGg9JzEwMDAlJyBoZWlnaHQ9JzEwMDAlJyBmaWxsPScjZmZmJy8+CiAgICA8cmVjdCB3aWR0aD0nMTAwJScgaGVpZ2h0PScxMDAlJyBmaWxsPScjZmYwMDAwJy8+CiAgICA8c3ZnIHg9JzUwJScgeT0nMTAlJyBvdmVyZmxvdz0ndmlzaWJsZSc+CiAgICAgIDxyZWN0IHdpZHRoPScyMDAwJScgaGVpZ2h0PScyMDAwJScgZmlsbC1vcGFjaXR5PScwLjEnIGZpbGw9JyMwMDAwMDAnIHRyYW5zZm9ybT0ncm90YXRlKDIwKScvPgogICAgICA8cmVjdCB3aWR0aD0nMjAwMCUnIGhlaWdodD0nMjAwMCUnIGZpbGwtb3BhY2l0eT0nMC4xJyBmaWxsPScjMDAwMDAwJyB0cmFuc2Zvcm09J3JvdGF0ZSg0MCknLz4KICAgICAgPHJlY3Qgd2lkdGg9JzIwMDAlJyBoZWlnaHQ9JzIwMDAlJyBmaWxsLW9wYWNpdHk9JzAuMScgZmlsbD0nIzAwMDAwMCcgdHJhbnNmb3JtPSdyb3RhdGUoNjApJy8+CiAgICAgIDxyZWN0IHdpZHRoPScyMDAwJScgaGVpZ2h0PScyMDAwJScgZmlsbC1vcGFjaXR5PScwLjEnIGZpbGw9JyMwMDAwMDAnIHRyYW5zZm9ybT0ncm90YXRlKDgwKScvPgogICAgICA8cmVjdCB3aWR0aD0nMjAwMCUnIGhlaWdodD0nMjAwMCUnIGZpbGwtb3BhY2l0eT0nMC4xJyBmaWxsPScjMDAwMDAwJyB0cmFuc2Zvcm09J3JvdGF0ZSgxMDApJy8+CiAgICAgIDxyZWN0IHdpZHRoPScyMDAwJScgaGVpZ2h0PScyMDAwJScgZmlsbC1vcGFjaXR5PScwLjEnIGZpbGw9JyMwMDAwMDAnIHRyYW5zZm9ybT0ncm90YXRlKDEyMCknLz4KICAgICAgPHJlY3Qgd2lkdGg9JzIwMDAlJyBoZWlnaHQ9JzIwMDAlJyBmaWxsLW9wYWNpdHk9JzAuMScgZmlsbD0nIzAwMDAwMCcgdHJhbnNmb3JtPSdyb3RhdGUoMTQwKScvPgogICAgICA8cmVjdCB3aWR0aD0nMjAwMCUnIGhlaWdodD0nMjAwMCUnIGZpbGwtb3BhY2l0eT0nMC4xJyBmaWxsPScjMDAwMDAwJyB0cmFuc2Zvcm09J3JvdGF0ZSgxNjApJy8+CiAgICAgIDxyZWN0IHdpZHRoPScyMDAwJScgaGVpZ2h0PScyMDAwJScgZmlsbC1vcGFjaXR5PScwLjEnIGZpbGw9JyMwMDAwMDAnIHRyYW5zZm9ybT0ncm90YXRlKDE4MCknLz4KICAgICAgPHJlY3Qgd2lkdGg9JzIwMDAlJyBoZWlnaHQ9JzIwMDAlJyBmaWxsLW9wYWNpdHk9JzAuMScgZmlsbD0nIzAwMDAwMCcgdHJhbnNmb3JtPSdyb3RhdGUoMjAwKScvPgogICAgICA8cmVjdCB3aWR0aD0nMjAwMCUnIGhlaWdodD0nMjAwMCUnIGZpbGwtb3BhY2l0eT0nMC4xJyBmaWxsPScjMDAwMDAwJyB0cmFuc2Zvcm09J3JvdGF0ZSgyMjApJy8+CiAgICAgIDxyZWN0IHdpZHRoPScyMDAwJScgaGVpZ2h0PScyMDAwJScgZmlsbC1vcGFjaXR5PScwLjEnIGZpbGw9JyMwMDAwMDAnIHRyYW5zZm9ybT0ncm90YXRlKDI0MCknLz4KICAgICAgPHJlY3Qgd2lkdGg9JzIwMDAlJyBoZWlnaHQ9JzIwMDAlJyBmaWxsLW9wYWNpdHk9JzAuMScgZmlsbD0nIzAwMDAwMCcgdHJhbnNmb3JtPSdyb3RhdGUoMjYwKScvPgogICAgICA8cmVjdCB3aWR0aD0nMjAwMCUnIGhlaWdodD0nMjAwMCUnIGZpbGwtb3BhY2l0eT0nMC4xJyBmaWxsPScjMDAwMDAwJyB0cmFuc2Zvcm09J3JvdGF0ZSgyODApJy8+CiAgICAgIDxyZWN0IHdpZHRoPScyMDAwJScgaGVpZ2h0PScyMDAwJScgZmlsbC1vcGFjaXR5PScwLjEnIGZpbGw9JyMwMDAwMDAnIHRyYW5zZm9ybT0ncm90YXRlKDMwMCknLz4KICAgICAgPHJlY3Qgd2lkdGg9JzIwMDAlJyBoZWlnaHQ9JzIwMDAlJyBmaWxsLW9wYWNpdHk9JzAuMScgZmlsbD0nIzAwMDAwMCcgdHJhbnNmb3JtPSdyb3RhdGUoMzIwKScvPgogICAgICA8cmVjdCB3aWR0aD0nMjAwMCUnIGhlaWdodD0nMjAwMCUnIGZpbGwtb3BhY2l0eT0nMC4xJyBmaWxsPScjMDAwMDAwJyB0cmFuc2Zvcm09J3JvdGF0ZSgzNDApJy8+CiAgICAgIDxyZWN0IHdpZHRoPScyMDAwJScgaGVpZ2h0PScyMDAwJScgZmlsbC1vcGFjaXR5PScwLjEnIGZpbGw9JyMwMDAwMDAnIHRyYW5zZm9ybT0ncm90YXRlKDM2MCknLz4KCiAgICA8L3N2Zz4KICA8L3N2Zz4=);
+        background-size: 150% 150%;
+        background-position: 15% 5%;
+        mask-image: radial-gradient(
+          ellipse at top right,
+          #000000 0,
+          #000000 40%,
+          transparent 60%
+        );
+
+        z-index: -10;
+      }
+
+      &:hover::before {
+        opacity: 1;
+      }
+
+      &:hover {
+        background-position: inherit;
+      }
+
+      > div {
+        content: "";
+        background-size: contain;
+
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        z-index: 0;
+
+        > span {
+          display: none;
+        }
+
+        animation: sway 4s ease-in-out 0s alternate infinite;
+
+        @media (prefers-reduced-motion) {
+          animation: none;
+        }
+      }
+
+      > .at-the {
+        transform-origin: top center;
+        background-image: url(../../../assets/images/at-the-party/at-the.svg);
+        background-repeat: no-repeat;
+      }
+
+      > .party {
+        background-image: url(../../../assets/images/at-the-party/party.svg);
+        animation-delay: 0.5s;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+}

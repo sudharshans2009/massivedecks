@@ -1,0 +1,28 @@
+@use "_colors";
+@use "_fonts";
+
+/// Support styling for Material Web Components.
+
+:root {
+  --mdc-theme-primary: #{colors.$primary};
+  --mdc-theme-on-primary: #{colors.$on-primary};
+
+  --mdc-theme-secondary: #{colors.$secondary};
+  --mdc-theme-on-secondary: #{colors.$on-secondary};
+
+  --mdc-theme-surface: #{colors.$card};
+  --mdc-theme-background: #{colors.$background};
+
+  --mdc-typography-font-family: #{fonts.$general};
+
+  --mdc-menu-item-height: 48px;
+
+  --mdc-icon-size: 0.75em;
+  --mdc-icon-button-size: 1.5em;
+
+  --mdc-typography-button-font-size: 1em;
+}
+
+mwc-tab .svg-inline--fa {
+  font-size: 1em;
+}

@@ -1,0 +1,36 @@
+@use "../_colors";
+@use "../_cards";
+
+.liked {
+  .side::after {
+    position: absolute;
+    bottom: 1em;
+    right: 1em;
+    width: 8em;
+    height: 8em;
+    transform: rotate(-0.125turn);
+
+    display: block;
+    content: "";
+    opacity: 0.3;
+    background: colors.$primary;
+    mask-image: url("../../../assets/images/certificate-thumbs-up.svg");
+  }
+}
+
+.judging {
+  .active .game-card {
+    @include cards.shadow(colors.$primary);
+    cursor: pointer;
+  }
+
+  &.is-czar {
+    .active .game-card {
+      @include cards.shadow(colors.$secondary);
+      cursor: pointer;
+    }
+    .picked .game-card .side {
+      border-color: colors.$secondary;
+    }
+  }
+}

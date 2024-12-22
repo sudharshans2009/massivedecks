@@ -1,0 +1,293 @@
+@use "../../_colors";
+
+.configure {
+  padding: 1em;
+
+  .mdc-card {
+    max-width: 60em;
+    margin: auto;
+  }
+
+  .title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 1em;
+
+    .game-code {
+      font-size: 1.5em;
+    }
+
+    .config-option {
+      flex-grow: 1;
+      flex-basis: 6em;
+    }
+
+    .joining {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  h2,
+  h3 {
+    margin: 0.5em 0 0 0;
+  }
+
+  .multipart {
+    mdc-switch {
+      margin-right: 0.5em;
+    }
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: column-reverse;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    margin: 1em;
+    pointer-events: none;
+    gap: 0.5em;
+
+    .action {
+      pointer-events: all;
+    }
+  }
+}
+
+.folded {
+  display: none;
+}
+
+.form-group {
+  margin: 1em 0;
+}
+
+.indent .form-group {
+  margin: 0;
+}
+
+.config-option {
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 0.5em;
+
+  .control {
+    display: flex;
+    align-items: center;
+
+    & > * {
+      margin: 0 0.5em;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      margin: 0;
+
+      & > * {
+        margin: 0 0.5em;
+      }
+    }
+
+    .primary {
+      flex-grow: 1;
+    }
+  }
+}
+
+.indent {
+  margin-left: 1em;
+}
+
+#decks-tab table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1em;
+
+  th {
+    text-align: center;
+    padding: 1em 0.5em;
+  }
+
+  th.deck-name {
+    text-align: left;
+  }
+
+  tr {
+    border-top: 1px solid colors.$secondary-background;
+  }
+
+  .deck-row .name {
+    display: flex;
+    min-height: 3.5rem;
+    align-items: center;
+  }
+
+  thead tr {
+    border-top: none;
+  }
+
+  .deck-name {
+    width: auto;
+  }
+
+  .count {
+    width: 2em;
+    text-align: right;
+  }
+
+  .loading-deck-info {
+    margin-left: 0.5em;
+  }
+
+  .with-error {
+    opacity: 0.5;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+#add-deck .multipart .primary {
+  flex-grow: 1;
+  flex-shrink: 1;
+  width: 1em;
+}
+
+.house-rules {
+  margin-top: 2em;
+}
+
+.house-rule {
+  margin: 1em 0;
+  opacity: 0.6;
+
+  &:first-of-type {
+    margin: 0 0 1em 0;
+  }
+
+  h4 {
+    margin: 0;
+  }
+
+  &.enabled {
+    opacity: 1;
+
+    .house-rule-settings {
+      transition: height 200ms ease-in;
+      height: fit-content;
+    }
+  }
+
+  .form-section {
+    margin: 0;
+  }
+
+  .house-rule-settings {
+    height: 0;
+    overflow: hidden;
+    transition: height 200ms ease-out;
+
+    .form-section {
+      margin: 0 1.5em;
+    }
+  }
+}
+
+.button-spread {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+#merge-overlay {
+  position: fixed;
+  top: 4rem;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  padding: 1em;
+
+  background-color: transparentize(colors.$secondary-background, 0.6);
+
+  z-index: 5;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .mdc-card {
+    max-height: 100%;
+  }
+
+  .merge {
+    overflow: auto;
+  }
+
+  .conflict {
+    display: flex;
+    flex-direction: column;
+
+    .local,
+    .remote {
+      flex-grow: 1;
+      display: flex;
+
+      .primary {
+        flex-grow: 1;
+      }
+    }
+
+    .resolution {
+      display: flex;
+      flex-direction: row;
+
+      mwc-button {
+        margin: 0 0.5em;
+      }
+
+      .resolve {
+        flex-basis: 0;
+        flex-grow: 1;
+      }
+    }
+  }
+}
+
+.locally-changed {
+  background-color: transparentize(colors.$primary-light, 0.9);
+}
+
+.validation-error {
+  background-color: transparentize(colors.$error, 0.9);
+}
+
+#add-deck mwc-icon-button {
+  margin: 0;
+}
+
+.source-tooltip {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  font-size: 1.5em;
+
+  & p {
+    margin: 0;
+  }
+
+  .author,
+  .translator,
+  .language {
+    font-size: 0.8em;
+  }
+}

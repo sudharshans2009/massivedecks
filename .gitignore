@@ -1,0 +1,10 @@
+# IDE files.
+.idea/
+.vscode/
+
+# Generated files.
+dist/
+
+# Package management cruft.
+elm-stuff/
+node_modules/

@@ -1,0 +1,294 @@
+@use "_fonts";
+@use "cards/_size";
+@use "cards/_sources";
+@use "cards/_call-editor";
+@use "cards/_colors";
+
+@mixin shadow($color: #000000) {
+  .side {
+    box-shadow: 0.15em 0.15em 0.4em transparentize($color, 0.7),
+      -0.05em -0.05em 0.4em transparentize($color, 0.7);
+  }
+}
+
+#game {
+  --card-aspect-ratio: #{size.$card-ratio};
+  font-size: clamp(0.5rem, 2vw, 1rem);
+}
+
+.game-card {
+  width: size.$card-width;
+  margin: size.$card-margin;
+  perspective: 100vw;
+
+  position: relative;
+
+  text-rendering: optimizeLegibility;
+  font-family: fonts.$card;
+  font-weight: bold;
+
+  p {
+    margin: 0;
+  }
+
+  .capitalize > :first-child {
+    text-transform: capitalize;
+  }
+
+  .upper-case {
+    text-transform: uppercase;
+  }
+
+  &.response {
+    --bg: #{colors.$response-background};
+    --fg: #{colors.$response-color};
+  }
+
+  &.call {
+    --bg: #{colors.$call-background};
+    --fg: #{colors.$call-color};
+
+    p {
+      display: flex;
+      flex-flow: row wrap;
+      align-items: baseline;
+      align-content: flex-start;
+      justify-content: flex-start;
+
+      span,
+      em {
+        white-space: pre-wrap;
+        overflow-wrap: break-word;
+        text-decoration: inherit;
+      }
+
+      .cluster {
+        display: contents;
+
+        &.grow {
+          display: inline flex;
+          align-items: baseline;
+          align-content: flex-start;
+          justify-content: flex-start;
+          flex-shrink: 0;
+          flex-wrap: wrap;
+
+          flex-grow: 1;
+        }
+      }
+
+      .slot {
+        &.filled {
+          display: contents;
+          text-decoration: underline;
+        }
+
+        &.empty {
+          display: flex;
+          justify-content: center;
+          flex-grow: 1;
+          flex-shrink: 0;
+          flex-basis: 3em;
+          min-width: 3em;
+          min-height: 1.15em;
+          border-bottom: 0.075em solid var(--fg);
+          margin-bottom: 0.2em;
+        }
+      }
+    }
+  }
+
+  // Creates a fixed size from an aspect ratio.
+  .aspect {
+    transition: transform 0.75s;
+    transform-style: preserve-3d;
+    position: relative;
+    height: 0;
+    width: 100%;
+    @include size.pad-to-aspect-ratio(var(--card-aspect-ratio));
+
+    & .side {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &.face-down .aspect {
+    transform: rotateY(180deg);
+  }
+
+  .side {
+    box-sizing: border-box;
+    background: var(--bg);
+    color: var(--fg);
+    border-radius: 0.75em;
+    border: 0.3em solid var(--bg);
+    box-shadow: 0.15em 0.15em 0.4em rgba(0, 0, 0, 0.3),
+      -0.05em -0.05em 0.4em rgba(0, 0, 0, 0.3);
+    padding: 1em;
+    backface-visibility: hidden;
+    transform: rotateX(0deg);
+
+    &.back {
+      transform: rotateY(180deg);
+
+      .content p {
+        line-height: 1em;
+        font-size: 2em;
+      }
+    }
+
+    &.front {
+      display: flex;
+      flex-flow: column nowrap;
+
+      .content {
+        flex-grow: 1;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+    }
+
+    p {
+      color: var(--fg);
+    }
+  }
+
+  .content {
+    font-size: 1.6em;
+    font-weight: 700;
+    line-height: 1.4em;
+  }
+
+  // For custom cards.
+  textarea {
+    display: block;
+    vertical-align: top;
+    font: inherit;
+    background-color: inherit;
+    resize: none;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .card-info {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin: 0.5em 0.25em 0.25em 0.25em;
+    font-size: 0.75em;
+    padding: 0.25em;
+
+    span {
+      flex-grow: 1;
+    }
+
+    .source {
+      font-size: 1.2em;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
+      &:before {
+        content: "";
+        background-image: url(../../assets/images/deck.svg);
+        background-size: 100% 100%;
+        display: inline-block;
+        width: 2.8em;
+        height: 2em;
+      }
+    }
+
+    .instructions {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      text-align: right;
+
+      li {
+        display: flex;
+        justify-content: flex-end;
+        align-items: baseline;
+        margin-top: 0.2em;
+        font-size: 1.4em;
+      }
+    }
+  }
+}
+
+.instruction {
+  white-space: nowrap;
+
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-rendering: optimizeLegibility;
+
+  &:before {
+    content: "[";
+  }
+
+  &:after {
+    content: "]";
+  }
+}
+
+.game-card .instruction {
+  &:before,
+  &:after {
+    content: none;
+  }
+}
+
+.amount {
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  text-align: center;
+  width: 1.2em;
+  height: 1.2em;
+  margin-left: 0.3em;
+  border-radius: 50%;
+  background: var(--fg, colors.$call-background);
+  color: var(--bg, colors.$call-color);
+}
+
+.show-slot-indices .game-card {
+  &[data-picked-for-slot-index]::after {
+    position: absolute;
+    left: calc(50% - 0.5em);
+    top: calc(50% - 0.5em);
+
+    content: attr(data-picked-for-slot-index);
+    display: block;
+    color: var(--bg);
+    background-color: var(--fg);
+    font-size: 3em;
+    border-radius: 1em;
+    width: 1em;
+    height: 1em;
+    text-align: center;
+    line-height: 1em;
+    opacity: 0.25;
+  }
+
+  .slot[data-slot-index].empty::after {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    content: attr(data-slot-index);
+    color: var(--bg);
+    background-color: var(--fg);
+    border-radius: 1em;
+    width: 1em;
+    height: 1em;
+    opacity: 0.25;
+  }
+}

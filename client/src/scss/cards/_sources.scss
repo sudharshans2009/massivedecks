@@ -1,0 +1,22 @@
+@use "../_colors";
+
+.many-decks-deck-code {
+  font-family: monospace;
+  background-color: colors.$many-decks;
+  color: #ffffff;
+  padding: 0.5em;
+  letter-spacing: 0.2em;
+  border: none;
+  min-width: 5em;
+  text-align: center;
+  font-weight: bold;
+}
+
+.source-id {
+  display: flex;
+  align-items: center;
+
+  > svg {
+    margin-right: 0.5em;
+  }
+}

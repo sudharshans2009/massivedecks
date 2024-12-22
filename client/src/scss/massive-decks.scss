@@ -1,0 +1,258 @@
+@use "./colors";
+@use "./fonts";
+@use "./material";
+
+@use "./game";
+@use "./pages/start";
+@use "./pages/lobby";
+@use "./pages/spectate";
+@use "./pages/unknown-page";
+@use "./settings";
+@use "./error";
+
+@import "../../elm-material/src/scss/material";
+@import "@fortawesome/fontawesome-svg-core/styles.css";
+
+$min-page-width: 320px;
+
+.no-wrap {
+  white-space: nowrap;
+}
+
+body {
+  color: colors.$on-primary;
+  background: colors.$background url(../../assets/images/background.svg) repeat;
+  margin: 0;
+  padding: 0;
+  font-size: 18px;
+  line-height: 1.2;
+  font-family: fonts.$general;
+  min-width: $min-page-width;
+}
+
+.game-code-input {
+  --mdc-typography-font-family: #{fonts.$game-code};
+}
+
+.game-code {
+  font-family: fonts.$game-code;
+  .svg-inline--fa {
+    margin-left: 0.3em;
+  }
+  white-space: nowrap;
+  color: #ffffff;
+  background-color: #000000;
+  padding: 0.1em 0.5em;
+}
+
+h1 {
+  font-family: fonts.$card;
+  font-weight: 700;
+  margin: 0.5em;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  font-size: 0.8em;
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+  text-align: left;
+}
+
+a,
+.link-button {
+  display: inline;
+  color: inherit;
+  text-decoration: none;
+
+  &:not(.tab) {
+    background: linear-gradient(
+        to top,
+        colors.$secondary 50%,
+        colors.$transparent 50%
+      )
+      no-repeat 0 10%;
+    background-size: 100% 200%;
+    transition: background-position 0.3s cubic-bezier(0.64, 0.9, 0.8, 1);
+  }
+
+  &:hover {
+    background-position: 0 100%;
+  }
+}
+
+// A button that allows the user to perform the main action in the game for them at this moment.
+.action {
+  font-size: 1.5rem;
+
+  // A style for actions that the game is waiting on - high contrast to grab attention.
+  &.blocking {
+    --mdc-theme-secondary: #{colors.$secondary};
+    --mdc-theme-on-secondary: #{colors.$on-secondary};
+  }
+
+  &.normal {
+    --mdc-theme-secondary: #{colors.$card};
+    --mdc-theme-on-secondary: #{colors.$primary};
+  }
+}
+
+.page {
+  padding: 2em;
+}
+
+.term {
+  white-space: nowrap;
+  font-variant: small-caps;
+  letter-spacing: 0.05em;
+  text-rendering: optimizeLegibility;
+
+  .icon-prefix {
+    display: none;
+  }
+
+  .icon-suffix {
+    display: none;
+  }
+}
+
+.compressed-terms {
+  .term {
+    .full {
+      display: none;
+    }
+    .icon-prefix {
+      display: inline;
+    }
+    .icon-suffix {
+      display: inline;
+    }
+  }
+}
+
+// TODO: Move to Elm asset loader when one works.
+.forceLoad {
+  background: url(../../assets/images/reread-icon.svg);
+}
+
+.empty-info {
+  text-align: center;
+  padding: 1em;
+  font-size: 1.2em;
+  opacity: 0.3;
+
+  .svg-inline--fa {
+    margin-right: 0.3em;
+  }
+}
+
+.form-section {
+  margin: 0.5em 0;
+
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  .multipart {
+    display: flex;
+    align-items: center;
+
+    min-height: 2em;
+
+    > * {
+      margin: 0 0.5em 0 0.5em;
+    }
+
+    .primary {
+      flex-grow: 1;
+    }
+  }
+
+  .children {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9em;
+    margin-left: 0.5em;
+
+    &.inactive {
+      opacity: 0.6;
+    }
+  }
+
+  mwc-button {
+    align-self: flex-end;
+  }
+}
+
+.segment {
+  display: inline-block;
+}
+
+@mixin message {
+  font-size: 0.75em;
+  padding: 0.25em;
+  margin: 0.25em;
+  display: flex;
+  align-items: center;
+
+  span {
+    flex-grow: 1;
+  }
+
+  .message-type-icon {
+    margin: 0.3em;
+  }
+}
+
+.info {
+  @include message;
+}
+
+.inline-error {
+  @include message;
+  color: colors.$error;
+  background-color: lighten(colors.$error, 55%);
+  border-radius: 0.5em;
+}
+
+.warning {
+  @include message;
+  color: #6f6401;
+}
+
+.fixes {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  flex-shrink: 1;
+
+  li {
+    display: inline-block;
+
+    mwc-icon-button {
+      margin: 0;
+    }
+  }
+}
+
+.not-translated {
+  > .string::before {
+    content: "[";
+  }
+
+  > .string::after {
+    content: "]";
+  }
+
+  > a {
+    display: none;
+  }
+
+  &:hover > a {
+    display: inline;
+  }
+}
